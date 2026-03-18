@@ -3,7 +3,7 @@ import {z} from "zod";
 export const SchemaInvoiceServiceItem = z.object({
     type: z.string(),
     period: z.string(),
-    hourlyRate: z.number(),
+    hourlyRate: z.number().or(z.literal('-')),
     hours: z.number(),
     total: z.number(),
 });

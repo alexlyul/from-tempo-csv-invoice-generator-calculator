@@ -27,7 +27,7 @@ export default class ConfigService {
 
     setTotalHours(totalHours: number) {
         this.totalHours = z
-            .number().nonnegative().min(1, "Min 1 hour required").max(190, "Max 190 hours")
+            .number().nonnegative().min(1, "Min 1 hour required").max(192, "Max 190 hours")
             .parse(totalHours);
         return this;
     }
@@ -86,6 +86,11 @@ export default class ConfigService {
         let totalAmountPaid = new Decimal(0);
 
         for (const service of this.configBase.services) {
+            if (service.hourlyRate === '-' && service.total) {
+                servicesFinal.push(service);
+                totalAmountPaid = totalAmountPaid.add(new Decimal(service.total));
+                continue;
+            }
             const total = new Decimal(this.totalHours!).mul(service.hourlyRate);
             totalAmountPaid = totalAmountPaid.add(total);
 

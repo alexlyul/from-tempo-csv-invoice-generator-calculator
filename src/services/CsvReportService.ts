@@ -60,14 +60,15 @@ export default class CsvReportService {
     protected parseCsvTableInternal() {
         if (!this.csv) throw new Error("No CSV data provided");
 
-        const rows = this.csv.split("\n").filter(row => row.trim() !== "");
+        const parsedRows = this.parseCsvRows(this.csv).filter(row => row.some(cell => cell.trim() !== ""));
+        const rows = parsedRows.map(row => row.join(","));
 
-        if (rows.length < 2) {
+        if (parsedRows.length < 2) {
             throw new Error("Invalid CSV format: Not enough rows to parse");
         }
 
-        const tableHeaderRow = rows[0].split(",");
-        const tableBodyRows = rows.slice(1).map(row => row.split(","));
+        const tableHeaderRow = parsedRows[0];
+        const tableBodyRows = parsedRows.slice(1);
         const lastRow = tableBodyRows.at(-1);
 
         if (!lastRow || lastRow.length < 5) {
@@ -90,6 +91,55 @@ export default class CsvReportService {
             startDate,
             endDate,
         };
+    }
+
+    protected parseCsvRows(csv: string): string[][] {
+        const rows: string[][] = [];
+        let currentRow: string[] = [];
+        let currentCell = "";
+        let inQuotes = false;
+
+        for (let i = 0; i < csv.length; i++) {
+            const char = csv[i];
+            const nextChar = csv[i + 1];
+
+            if (char === '"') {
+                if (inQuotes && nextChar === '"') {
+                    currentCell += '"';
+                    i++;
+                } else {
+                    inQuotes = !inQuotes;
+                }
+                continue;
+            }
+
+            if (char === "," && !inQuotes) {
+                currentRow.push(currentCell);
+                currentCell = "";
+                continue;
+            }
+
+            if ((char === "\n" || char === "\r") && !inQuotes) {
+                if (char === "\r" && nextChar === "\n") {
+                    i++;
+                }
+
+                currentRow.push(currentCell);
+                rows.push(currentRow);
+                currentRow = [];
+                currentCell = "";
+                continue;
+            }
+
+            currentCell += char;
+        }
+
+        if (currentCell.length > 0 || currentRow.length > 0) {
+            currentRow.push(currentCell);
+            rows.push(currentRow);
+        }
+
+        return rows;
     }
 
     async generateTimesheet(): Promise<string> {
