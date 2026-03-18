@@ -1,0 +1,36 @@
+# This is a sample config file, copy this file and rename it to `config.yaml`
+
+firstInvoiceDate: "Jun 1, 2020, 5:00PM"
+invoiceTitlePrefix: "GOOGLE-LLC"
+
+emailConfig:
+  to:
+    - "direct-manager@company.com"
+    - "accountant@company.com"
+  senderDisplayName: "John Doe"
+  greeting: "Dear Sir/Madam,"
+  signature: "John Doe"
+
+invoice:
+  from:
+    name: "John Mid. Doe"
+    nameSub: "Pvt. Ltd. John Doe"
+    address: "1601 Broadway str."
+    city: "New York"
+    postalCode: "10019"
+    country: "USA"
+    taxNumber: "87-3283928-3"
+    iban: "US183112928123126142241612178"
+    bic: "BBUS839"
+  to:
+    name: "Google LLC"
+    address: "1600 Amphitheatre Parkway"
+    floor: "15th floor"
+    city: "Mountain View, CA"
+    postalCode: "1920211"
+    email: "info@google.com"
+
+service:
+  type: "Software service – development"
+  hourlyRate: 50
+  hours: 0

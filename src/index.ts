@@ -21,7 +21,7 @@ const TEMPLATES_PATHS = {
         srcHbsTemplate: path.join(__dirname, '../src/templates/template-timsheet-table.hbs'),
         outHtmlPath: path.join(__dirname, '../dist-templates/timesheet.temp.html'),
         outPdfPath: (folderName: string, month: string, year: string) => path.join(__dirname, `../dist-templates/mail/${folderName}/Timesheet -  Alexander Lyulko - ${month} ${year}.pdf`),
-        jiraCsvReportPath: path.join(__dirname, '../src/templates/tempor-teport.csv'),
+        jiraCsvReportPath: path.join(__dirname, '../tempor-teport.csv'),
     },
     mail: {
         outTexFilePath: (folderName: string) => path.join(__dirname, `../dist-templates/mail/${folderName}/mail.html`),

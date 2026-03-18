@@ -1,5 +1,7 @@
 .idea/
+
 node_modules/
 dist/
 dist-templates/
-/src/.userConfig.ts
+
+config.yaml
